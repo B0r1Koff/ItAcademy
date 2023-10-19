@@ -1,0 +1,29 @@
+.product-selected{
+    background-color: orangered;
+    color: white;
+}
+
+.product{
+    background-color: rgb(242, 220, 180);
+}
+
+.product, .product-selected{
+    width: 20%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 1%;
+}
+
+.delete-button{
+    background-color: orange;
+    border: 0px;
+    margin: 10% 0 10% 0;
+}
+
+.image{
+    width: 80%;
+    height: 50%;
+}
