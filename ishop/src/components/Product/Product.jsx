@@ -11,7 +11,12 @@ class Product extends Component {
         <span>{this.props.product.name}</span>
         <span>{this.props.product.price} руб</span>
         
-        <button className='delete-button'>Удалить</button>
+        <button className='delete-button' onClick={(e) => {
+
+          e.stopPropagation()
+          this.props.onDelete(this.props.product)
+          
+        }}>Удалить</button>
       </div>
     );
 
