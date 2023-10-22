@@ -3,6 +3,12 @@ import "./Product.css"
 
 class Product extends Component {
 
+  deleteProduct = () => {
+    if (window.confirm('Вы уверены, что хотите удалить товар?')) {
+      this.props.onDelete(this.props.product);
+    }
+  };
+
   render() {
 
     return (
@@ -14,7 +20,7 @@ class Product extends Component {
         <button className='delete-button' onClick={(e) => {
 
           e.stopPropagation()
-          this.props.onDelete(this.props.product)
+          this.deleteProduct()
           
         }}>Удалить</button>
       </div>

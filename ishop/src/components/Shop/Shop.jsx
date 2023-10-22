@@ -25,7 +25,7 @@ class Shop extends Component {
 
     return (
       <div>
-        <div className='shop-name'>{this.props.name} + {this.state.selectedProductId}</div>
+        <div className='shop-name'>{this.props.name}</div>
         <div className="product-list">
           {this.state.products.map((product) => (
 
