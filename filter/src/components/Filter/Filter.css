@@ -1,0 +1,18 @@
+.sort-elements{
+    display: flex;
+    justify-content: center;
+}
+
+.input-to-sort{
+    margin-left: 1%;
+    margin-right: 1%;
+}
+
+.items-list{
+    list-style: none;
+    padding: 0;
+}
+
+.checkbox-to-sort{
+    margin-right: 0;
+}
