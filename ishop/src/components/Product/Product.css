@@ -20,10 +20,17 @@
 .delete-button{
     background-color: orange;
     border: 0px;
-    margin: 10% 0 10% 0;
+    margin: 7.5% 0 0 0;
 }
 
 .image{
     width: 80%;
     height: 50%;
+}
+
+.delete-button-disabled{
+    background-color: rgb(176, 160, 126);
+    border: 0px;
+    margin: 7.5% 0 0 0;
+    pointer-events: none;
 }

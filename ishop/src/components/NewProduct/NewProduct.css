@@ -1,0 +1,19 @@
+.new-product-form{
+    display: flex;
+    flex-direction: column;
+}
+
+.new-product-form-none{
+    display: none;
+}
+
+.add-str{
+    display: flex;
+    flex-direction: row;
+    margin-top: 5%;
+}
+
+.field{
+    width: 50%;
+    text-align: end;
+}

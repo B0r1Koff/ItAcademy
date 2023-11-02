@@ -1,0 +1,28 @@
+.edit-field{
+    display: flex;
+    flex-direction: column;
+}
+
+.edit-field-none{
+    display: none;
+}
+
+.edit-input{
+    display: flex;
+    flex-direction: row;
+    margin-top: 5%;
+}
+
+.err-message{
+    color: red;
+}
+
+.card-str{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 5%;
+}
+
+p{
+    margin: 0%;
+}

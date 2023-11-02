@@ -17,12 +17,19 @@ class Product extends Component {
         <span>{this.props.product.name}</span>
         <span>{this.props.product.price} руб</span>
         
-        <button className='delete-button' onClick={(e) => {
+        <button className={`delete-button${!this.props.editable ? '-disabled' : ''}`} onClick={(e) => {
 
           e.stopPropagation()
           this.deleteProduct()
           
         }}>Удалить</button>
+
+        <button className={`delete-button${!this.props.editable ? '-disabled' : ''}`} onClick={(e) => {
+
+          e.stopPropagation()
+          this.props.onEdit(this.props.product)
+
+        }}>Редактировать</button>
       </div>
     );
 

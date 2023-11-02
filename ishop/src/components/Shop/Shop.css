@@ -16,3 +16,22 @@
     width: 100%;
     height: auto;
 }
+
+.shop-page{
+    display: flex;
+    flex-direction: row;
+}
+
+.shop{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.new-product-button{
+    background-color: orange;
+    border: 0px;
+    margin: 5% 0 2% 0;
+    width: 20%;
+    height: 30px;
+}
