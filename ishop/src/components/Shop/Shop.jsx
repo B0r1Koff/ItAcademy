@@ -13,6 +13,12 @@ class Shop extends Component {
     this.setState({ selectedProductId: product.id });
   };
 
+  saveProduct = (productId, product) => {
+    const newList = this.state.products.slice()
+    newList[productId] = product
+    this.setState({products: newList})
+  }  //ishop2
+
   deleteProduct = (productToDelete) => {
     const updatedProducts = this.state.products.filter(
       (product) => product !== productToDelete
