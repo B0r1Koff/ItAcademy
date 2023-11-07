@@ -3,9 +3,9 @@ import "./EditField.css"
 
 class EditField extends Component {
     state = {
-        url: this.props.id === 0 ? "" : this.props.products[this.props.id-1].url,
-        name: this.props.id === 0 ? "" : this.props.products[this.props.id-1].name,
-        price: this.props.id === 0 ? "" : this.props.products[this.props.id-1].price,
+        url: this.props.product.id === 0 ? "" : this.props.product.url,
+        name: this.props.product.id === 0 ? "" : this.props.product.name,
+        price: this.props.product.id === 0 ? "" : this.props.product.price,
         urlError: "",
         nameError: "",
         priceError: ""
@@ -30,7 +30,7 @@ class EditField extends Component {
   
       return (
         
-        this.props.id === this.props.selectedId ?
+        !this.props.info ?
 
         <div className={this.props.id === 0 ? "edit-field-none" : "edit-field"}>
             <div className='edit-input'>
@@ -85,20 +85,20 @@ class EditField extends Component {
 
         <div>
             <div className='card-str'>
-                <p>id: </p>
-                <input type="text" value={this.props.products[this.props.selectedId-1].id}/>
+                <p className='card-field'>id: </p>
+                <span className='card-info'>{this.props.product.id}</span>
             </div>
             <div className='card-str'>
-                <p>url: </p>
-                <input type="text" value={this.props.products[this.props.selectedId-1].url}/>
+                <p className='card-field'>url: </p>
+                <span className='card-info'>{this.props.product.url}</span>
             </div>
             <div className='card-str'>
-                <p>name: </p>
-                <input type="text" value={this.props.products[this.props.selectedId-1].name}/>
+                <p className='card-field'>name: </p>
+                <span className='card-info'>{this.props.product.name}</span>
             </div>
             <div className='card-str'>
-                <p>price: </p>
-                <input type="text" value={this.props.products[this.props.selectedId-1].price}/>
+                <p className='card-field'>price: </p>
+                <span className='card-info'>{this.props.product.price}</span>
             </div>
         </div>
       );

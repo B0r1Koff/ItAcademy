@@ -6,9 +6,9 @@ class NewProduct extends Component {
         url: "",
         name: "",
         price: "",
-        urlError: "",
-        nameError: "",
-        priceError: ""
+        urlError: "Заполните поле ссылки!",
+        nameError: "Заполните поле названия!",
+        priceError: "Заполните поле цены!"
     }
         
     handleInputUrlChange = eo => {
@@ -32,47 +32,39 @@ class NewProduct extends Component {
       <div className='add-str'>
         <p className='field'>URL: </p>
         <input type="text" value={this.state.url} onChange={this.handleInputUrlChange}/>
-        <p className='err-message'>{this.state.urlError}</p>
+        <p className='err-message'>{this.state.url === "" ? this.state.urlError : ""}</p>
       </div>
 
       <div className='add-str'>
         <p className='field'>Название: </p>
         <input type="text" value={this.state.name} onChange={this.handleInputNameChange}/>
-        <p className='err-message'>{this.state.nameError}</p>
+        <p className='err-message'>{this.state.name === "" ? this.state.nameError : ""}</p>
       </div>
 
       <div className='add-str'>
         <p className='field'>Цена: </p>
         <input type="text" value={this.state.price} onChange={this.handleInputPriceChange}/>
-        <p className='err-message'>{this.state.priceError}</p>
+        <p className='err-message'>{this.state.price === "" ? this.state.priceError : ""}</p>
       </div>
 
-      <button className='delete-button' onClick={(e) => {
+      <button className={
+        this.state.url !== "" && this.state.name !== "" && this.state.price !== "" ? "delete-button" : "delete-button-disabled"
+      } onClick={(e) => {
   
         e.stopPropagation()
-        if(this.state.url === ""){
-            this.setState({urlError: "Заполните поле!"})
-        }
-        if(this.state.name === ""){
-            this.setState({nameError: "Заполните поле!"})
-        }
-        if(this.state.price === ""){
-            this.setState({priceError: "Заполните поле!"})
-        }
-        if(this.state.url !== "" && this.state.name !== "" && this.state.price !== ""){
-            this.props.editEnable()
-            this.props.onAdd(
-            { 
-                "id": this.props.products.length+1, 
-                "name": this.state.name, 
-                "price": this.state.price, 
-                "url": this.state.url 
-            })
-            this.props.newProductDisable()
-            this.setState({url: ""});
-            this.setState({name: ""});
-            this.setState({price: ""});
-        }
+        
+        this.props.editEnable()
+        this.props.onAdd(
+        { 
+          "id": this.props.products.length+1, 
+          "name": this.state.name, 
+          "price": this.state.price, 
+          "url": this.state.url 
+        })
+        this.props.newProductDisable()
+        this.setState({url: ""});
+        this.setState({name: ""});
+        this.setState({price: ""});
         
       }}>Сохранить</button>
 

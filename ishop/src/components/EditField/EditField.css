@@ -19,10 +19,25 @@
 
 .card-str{
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     margin-bottom: 5%;
 }
 
 p{
     margin: 0%;
+}
+
+.card-info{
+    width: 80%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 200px;
+    background-color: rgb(242, 220, 180);
+}
+
+.card-field{
+    width: 20%;
+    background-color: orange;
+    text-align: end;
 }

@@ -8,7 +8,7 @@ class Shop extends Component {
 
   state = {
     selectedProductId: 0,
-    editableProdictId: 0,
+    info: false,
     editable: true,
     new: false,
     products: this.props.products
@@ -17,6 +17,9 @@ class Shop extends Component {
   selectProduct = (product) => {
     if(this.state.editable){
       this.setState({ selectedProductId: product.id });
+      if(!this.state.info){
+        this.setState({ info: true });
+      }
     }
   };
 
@@ -29,8 +32,8 @@ class Shop extends Component {
   };
 
   editProduct = (productToEdit) => {
-    this.setState({ editableProdictId: productToEdit.id });
     this.setState({ selectedProductId: productToEdit.id });
+    this.setState({ info: false })
   };
 
   saveProduct = (productId, product) => {
@@ -41,7 +44,6 @@ class Shop extends Component {
   }
 
   cancelEdit = () => {
-    this.setState({ editableProdictId: 0 });
     this.setState({ selectedProductId: 0 });
     this.setState({ editable: true})
     this.setState({ new: false})
@@ -80,6 +82,7 @@ class Shop extends Component {
           this.cancelEdit()
           this.newProductEnable()
           this.editDisable()
+          this.setState({ info: false})
 
         }}>Новый товар</button>
           <div className='shop-page'>
@@ -99,11 +102,13 @@ class Shop extends Component {
               ))}
             </div>
 
+            <div className='cards'>
+
             <EditField
-              key = {this.state.editableProdictId}
-              id = {this.state.editableProdictId}
-              selectedId = {this.state.selectedProductId}
-              products = {this.state.products}
+              key = {this.state.selectedProductId}
+              id = {this.state.selectedProductId}
+              product = {this.state.selectedProductId === 0 ? this.state.products[0] : this.state.products[this.state.selectedProductId-1]}
+              info = {this.state.info}
               onSave = {this.saveProduct}
               onCancel = {this.cancelEdit}
               editDisable = {this.editDisable}
@@ -118,6 +123,9 @@ class Shop extends Component {
               editEnable = {this.editEnable}
               newProductDisable = {this.newProductDisable}
             />
+
+            </div>
+            
           </div>
       </div>
     );
