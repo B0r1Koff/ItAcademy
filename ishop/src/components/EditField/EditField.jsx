@@ -6,9 +6,9 @@ class EditField extends Component {
         url: this.props.product.id === 0 ? "" : this.props.product.url,
         name: this.props.product.id === 0 ? "" : this.props.product.name,
         price: this.props.product.id === 0 ? "" : this.props.product.price,
-        urlError: "",
-        nameError: "",
-        priceError: ""
+        urlError: "Заполните поле ссылки!",
+        nameError: "Заполните поле названия!",
+        priceError: "Заполните поле цены!"
     }
         
     handleInputUrlChange = eo => {
@@ -35,41 +35,33 @@ class EditField extends Component {
         <div className={this.props.id === 0 ? "edit-field-none" : "edit-field"}>
             <div className='edit-input'>
                 <input type="text" value={this.state.url} onChange={this.handleInputUrlChange}/>
-                <p className='err-message'>{this.state.urlError}</p>
+                <p className='err-message'>{this.state.url === "" ? this.state.urlError : ""}</p>
             </div>
 
             <div className='edit-input'>
                 <input type="text" value={this.state.name} onChange={this.handleInputNameChange}/>
-                <p className='err-message'>{this.state.nameError}</p>
+                <p className='err-message'>{this.state.name === "" ? this.state.nameError : ""}</p>
             </div>
 
             <div className='edit-input'>
                 <input type="text" value={this.state.price} onChange={this.handleInputPriceChange}/>
-                <p className='err-message'>{this.state.priceError}</p>
+                <p className='err-message'>{this.state.price === "" ? this.state.priceError : ""}</p>
             </div>
           
-          <button className='delete-button' onClick={(e) => {
+          <button className={
+            this.state.url !== "" && this.state.name !== "" && this.state.price !== "" ? "delete-button" : "delete-button-disabled"
+        } onClick={(e) => {
   
             e.stopPropagation()
-            if(this.state.url === ""){
-                this.setState({urlError: "Заполните поле!"})
-            }
-            if(this.state.name === ""){
-                this.setState({nameError: "Заполните поле!"})
-            }
-            if(this.state.price === ""){
-                this.setState({priceError: "Заполните поле!"})
-            }
-            if(this.state.url !== "" && this.state.name !== "" && this.state.price !== ""){
-                this.props.editEnable()
-                this.props.onSave(this.props.id-1, 
-                { 
-                    "id": this.props.id, 
-                    "name": this.state.name, 
-                    "price": this.state.price, 
-                    "url": this.state.url 
-                })
-            }
+                
+            this.props.editEnable()
+            this.props.onSave(this.props.id-1, 
+            { 
+                "id": this.props.id, 
+                "name": this.state.name, 
+                "price": this.state.price, 
+                "url": this.state.url 
+            })
             
           }}>Сохранить</button>
 
