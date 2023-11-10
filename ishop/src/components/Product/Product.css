@@ -3,6 +3,10 @@
     color: white;
 }
 
+.product-deleted{
+    display: none;
+}
+
 .product{
     background-color: rgb(242, 220, 180);
 }

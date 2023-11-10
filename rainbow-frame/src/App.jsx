@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import './App.css';
-import RainbowFrame from './Rainbowframe'
+import RainbowFrame from './components/Rainbowframe'
 
 export default class App extends Component {
 

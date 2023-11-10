@@ -8,12 +8,10 @@ class Br2 extends Component {
 
     return (
       <div className='br2'>
-        {lines.map((line, index) => (
-          <span key={index}>
-            {line}
-            {index !== lines.length - 1 && <br />}
-          </span>
-        ))}
+        {lines.map((line, index) => [
+          line,
+          index !== lines.length - 1 ? <br key={`br-${index}`} /> : null
+        ])}
       </div>
     );
   }

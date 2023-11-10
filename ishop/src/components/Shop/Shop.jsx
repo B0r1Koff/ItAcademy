@@ -11,7 +11,8 @@ class Shop extends Component {
     info: false,
     editable: true,
     new: false,
-    products: this.props.products
+    products: this.props.products,
+    delNum: 0
   };  
 
   selectProduct = (product) => {
@@ -24,11 +25,10 @@ class Shop extends Component {
   };
 
   deleteProduct = (productToDelete) => {
-    const updatedProducts = this.state.products.filter(
-      (product) => product !== productToDelete
-    );
-
-  this.setState({ products: updatedProducts });
+    if(productToDelete.id === this.state.selectedProductId){
+      this.setState({selectedProductId: 0})
+      this.setState({info: false})
+    }
   };
 
   editProduct = (productToEdit) => {
