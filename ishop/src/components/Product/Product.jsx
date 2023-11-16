@@ -3,13 +3,8 @@ import "./Product.css"
 
 class Product extends Component {
 
-  state = {
-    isDeleted: false
-  }
-
   deleteProduct = () => {
     if (window.confirm('Вы уверены, что хотите удалить товар?')) {
-      this.setState({isDeleted: true});
       this.props.onDelete(this.props.product)
     }
   };
@@ -17,8 +12,9 @@ class Product extends Component {
   render() {
 
     return (
-      <div className={`product${this.state.isDeleted ? '-deleted' : this.props.isSelected ? '-selected'  : ''}`} onClick={() => this.props.onSelect(this.props.product)}>
+      <div className={`product${this.props.isSelected ? '-selected'  : ''}`} onClick={() => this.props.onSelect(this.props.product)}>
         <img src={this.props.product.url} className='image'/>
+        <span>{this.props.product.id}</span>
         <span>{this.props.product.name}</span>
         <span>{this.props.product.price} руб</span>
         

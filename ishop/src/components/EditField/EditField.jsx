@@ -3,9 +3,9 @@ import "./EditField.css"
 
 class EditField extends Component {
     state = {
-        url: this.props.product.id === 0 ? "" : this.props.product.url,
-        name: this.props.product.id === 0 ? "" : this.props.product.name,
-        price: this.props.product.id === 0 ? "" : this.props.product.price,
+        url: this.props.product.url,
+        name: this.props.product.name,
+        price: this.props.product.price,
         urlError: "Заполните поле ссылки!",
         nameError: "Заполните поле названия!",
         priceError: "Заполните поле цены!"
@@ -55,7 +55,7 @@ class EditField extends Component {
             e.stopPropagation()
                 
             this.props.editEnable()
-            this.props.onSave(this.props.id-1, 
+            this.props.onSave(this.props.id, 
             { 
                 "id": this.props.id, 
                 "name": this.state.name, 

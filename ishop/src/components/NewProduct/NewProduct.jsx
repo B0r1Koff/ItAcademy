@@ -56,7 +56,7 @@ class NewProduct extends Component {
         this.props.editEnable()
         this.props.onAdd(
         { 
-          "id": this.props.products.length+1, 
+          "id": this.props.maxId+1, 
           "name": this.state.name, 
           "price": this.state.price, 
           "url": this.state.url 

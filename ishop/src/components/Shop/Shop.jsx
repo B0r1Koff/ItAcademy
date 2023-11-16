@@ -25,6 +25,11 @@ class Shop extends Component {
   };
 
   deleteProduct = (productToDelete) => {
+    const updatedProducts = this.state.products.filter(
+      (product) => product !== productToDelete
+    );
+
+  this.setState({ products: updatedProducts });
     if(productToDelete.id === this.state.selectedProductId){
       this.setState({selectedProductId: 0})
       this.setState({info: false})
@@ -38,7 +43,12 @@ class Shop extends Component {
 
   saveProduct = (productId, product) => {
     const newList = this.state.products.slice()
-    newList[productId] = product
+    for(let i = 0; i < newList.length; i++){
+        let newProduct = newList[i]
+        if(newProduct.id === productId){
+          newList[i] = product
+        }
+    }
     this.setState({products: newList})
     this.cancelEdit()
   }
@@ -69,6 +79,21 @@ class Shop extends Component {
     const updatedArray = [...this.state.products]
     updatedArray.push(newProduct)
     this.setState({products: updatedArray})
+  }
+
+  getProductById = (id) =>  {
+    const product = this.state.products.find(item => item.id === id);
+    return product ? product : {}
+  }
+
+  getMaxId = () => {
+    let maxId = 0
+    this.state.products.map((product) => {
+     if(product.id > maxId){
+      maxId = product.id
+     } 
+    })
+    return maxId;
   }
 
   render() {
@@ -107,7 +132,7 @@ class Shop extends Component {
             <EditField
               key = {this.state.selectedProductId}
               id = {this.state.selectedProductId}
-              product = {this.state.selectedProductId === 0 ? this.state.products[0] : this.state.products[this.state.selectedProductId-1]}
+              product = {this.getProductById(this.state.selectedProductId)}
               info = {this.state.info}
               onSave = {this.saveProduct}
               onCancel = {this.cancelEdit}
@@ -118,7 +143,7 @@ class Shop extends Component {
             <NewProduct 
               new = {this.state.new}
               onCancel = {this.cancelEdit}
-              products = {this.state.products}
+              maxId = {this.getMaxId()}
               onAdd = {this.addProduct}
               editEnable = {this.editEnable}
               newProductDisable = {this.newProductDisable}
