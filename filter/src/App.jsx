@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import './App.css';
-import Filter from './components/Filter/Filter'
+import FilterApp from './components/Filter/FilterApp'
 
 const items = [
   'california',
@@ -15,14 +15,13 @@ const items = [
   'appreciate',
 ];
 
-export default class App extends Component {
+const App = () => {
 
-  render() {
-    return (
-      <div className="App">
-        <Filter items={items} />
-      </div>
-    );
-  }
-  
-}
+  return (
+    <div className='App'>
+      <FilterApp items={items} />
+    </div>
+  );
+};
+
+export default App;
