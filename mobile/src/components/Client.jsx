@@ -1,9 +1,10 @@
 import React, { PureComponent } from 'react';
-import './Client.css'
+import EventEmitter from './EventEmitter';
+import './Client.css';
 
 class Client extends PureComponent {
   handleEdit = () => {
-    const { client, onEditClient } = this.props;
+    const { client } = this.props;
     const lastName = this.lastNameInput.value.trim();
     const firstName = this.firstNameInput.value.trim();
     const middleName = this.middleNameInput.value.trim();
@@ -22,17 +23,17 @@ class Client extends PureComponent {
       balance,
     };
 
-    onEditClient(client, updatedClient);
+    EventEmitter.emit('editClient', client, updatedClient);
   };
 
   handleCancelEdit = () => {
-    const { client, onCancelEdit } = this.props;
-    onCancelEdit(client.id);
+    const { client } = this.props;
+    EventEmitter.emit('cancelEdit', client.id);
   };
 
   handleDelete = () => {
-    const { client, onDeleteClient } = this.props;
-    onDeleteClient(client);
+    const { client } = this.props;
+    EventEmitter.emit('deleteClient', client);
   };
 
   render() {
@@ -47,7 +48,7 @@ class Client extends PureComponent {
             <input className='inputCol' ref={(input) => (this.firstNameInput = input)} defaultValue={client.firstName} placeholder="Имя" />
             <input className='inputCol' ref={(input) => (this.middleNameInput = input)} defaultValue={client.middleName} placeholder="Отчество" />
             <input className='inputCol' ref={(input) => (this.balanceInput = input)} defaultValue={client.balance} placeholder="Баланс" />
-            <span className={client.active? 'active' : 'blocked'}>
+            <span className={client.active ? 'active' : 'blocked'}>
               {client.active ? 'Активен' : 'Заблокирован'}
             </span>
             <button className='button' onClick={this.handleEdit}>Сохранить</button>
@@ -55,19 +56,11 @@ class Client extends PureComponent {
           </div>
         ) : (
           <div className='row'>
-            <span className='col'>
-              {client.lastName} 
-            </span>
-            <span className='col'>
-              {client.firstName} 
-            </span>
-            <span className='col'>
-              {client.middleName}
-            </span>
-            <span className='col'>
-              {client.balance}
-            </span>
-            <span className={client.active? 'active' : 'blocked'}>
+            <span className='col'>{client.lastName}</span>
+            <span className='col'>{client.firstName}</span>
+            <span className='col'>{client.middleName}</span>
+            <span className='col'>{client.balance}</span>
+            <span className={client.active ? 'active' : 'blocked'}>
               {client.active ? 'Активен' : 'Заблокирован'}
             </span>
             <button className='button' onClick={() => onToggleEdit(client.id)}>Редактировать</button>

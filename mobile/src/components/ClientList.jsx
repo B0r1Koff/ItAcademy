@@ -1,16 +1,26 @@
 import React, { PureComponent } from 'react';
 import Client from './Client';
-import './Client.css'
+import EventEmitter from './EventEmitter';
+import './Client.css';
 
 class ClientList extends PureComponent {
   state = {
-    clients: [
-      { id: 1, lastName: 'Иванов', firstName: 'Иван', middleName: 'Иванович', balance: 1000, active: true },
-      { id: 2, lastName: 'Петров', firstName: 'Петр', middleName: 'Петрович', balance: 1500, active: false },
-    ],
+    clients: this.props.clients,
     filter: 'all',
     editingClientId: null,
   };
+
+  componentDidMount() {
+    EventEmitter.on('editClient', this.handleEditClient);
+    EventEmitter.on('cancelEdit', this.handleCancelEdit);
+    EventEmitter.on('deleteClient', this.handleDeleteClient);
+  }
+
+  componentWillUnmount() {
+    EventEmitter.off('editClient', this.handleEditClient);
+    EventEmitter.off('cancelEdit', this.handleCancelEdit);
+    EventEmitter.off('deleteClient', this.handleDeleteClient);
+  }
 
   handleEditClient = (oldClient, updatedClient) => {
     this.setState((prevState) => ({
@@ -25,12 +35,12 @@ class ClientList extends PureComponent {
     }));
   };
 
-  handleAddClient = (newClient) => {
-    this.setState((prevState) => ({ clients: [...prevState.clients, newClient] }));
-  };
-
   handleToggleEdit = (clientId) => {
     this.setState((prevState) => ({ editingClientId: prevState.editingClientId === clientId ? null : clientId }));
+  };
+
+  handleCancelEdit = (clientId) => {
+    this.setState({ editingClientId: null });
   };
 
   handleAddNewClient = () => {
@@ -64,34 +74,19 @@ class ClientList extends PureComponent {
         </div>
 
         <div className='row'>
-            <span className='col'>
-              Фамилия
-            </span>
-            <span className='col'>
-              Имя 
-            </span>
-            <span className='col'>
-              Отчество
-            </span>
-            <span className='col'>
-              Баланс
-            </span>
-            <span className='col'>
-              Статус
-            </span>
-            <span className='col'>
-              Действие
-            </span>
-          </div>
+          <span className='col'>Фамилия</span>
+          <span className='col'>Имя</span>
+          <span className='col'>Отчество</span>
+          <span className='col'>Баланс</span>
+          <span className='col'>Статус</span>
+          <span className='col'>Действие</span>
+        </div>
         {filteredClients.map((client) => (
           <div key={client.id}>
             <Client
               client={client}
               isEditing={client.id === editingClientId}
               onToggleEdit={this.handleToggleEdit}
-              onEditClient={this.handleEditClient}
-              onDeleteClient={this.handleDeleteClient}
-              onCancelEdit={this.handleToggleEdit}
             />
           </div>
         ))}

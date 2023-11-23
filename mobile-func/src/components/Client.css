@@ -1,0 +1,31 @@
+.col{
+    width: 200px;
+    border: 1px solid black;
+}
+
+.row{
+    display: flex;
+    flex-direction: row;
+}
+
+.button{
+    width: 100px;
+    margin: 0;
+}
+
+.inputCol{
+    width: 196px;
+    border: 1px solid black;
+}
+
+.active{
+    width: 200px;
+    border: 1px solid black;
+    background-color: rgb(48, 168, 48);
+}
+
+.blocked{
+    width: 200px;
+    border: 1px solid black;
+    background-color: red;
+}
