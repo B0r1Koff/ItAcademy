@@ -1,38 +1,16 @@
 import React, { useRef, useEffect } from 'react';
+import EventEmitter from './EventEmitter';
 import './Client.css';
-import { useAppContext } from './AppContext';
 
-const Client = ({ client, isEditing }) => {
+const Client = ({ client, isEditing, onToggleEdit }) => {
+  useEffect(() => {
+    console.log(`Клиент ${client.id} рендерится.`);
+  }, [client.id]);
+  
   const lastNameInput = useRef(null);
   const firstNameInput = useRef(null);
   const middleNameInput = useRef(null);
   const balanceInput = useRef(null);
-
-  const { eventEmitter, editingClientId, setFilter } = useAppContext();
-
-  useEffect(() => {
-    const handleSave = (oldClient, updatedClient) => {
-      setFilter('all'); // Reset filter when a change is made
-    };
-
-    const handleCancel = () => {
-      // No additional logic needed
-    };
-
-    const handleDelete = () => {
-      setFilter('all'); // Reset filter when a client is deleted
-    };
-
-    eventEmitter.on('editClient', handleSave);
-    eventEmitter.on('toggleEdit', handleCancel);
-    eventEmitter.on('deleteClient', handleDelete);
-
-    return () => {
-      eventEmitter.off('editClient', handleSave);
-      eventEmitter.off('toggleEdit', handleCancel);
-      eventEmitter.off('deleteClient', handleDelete);
-    };
-  }, [eventEmitter, setFilter]);
 
   const handleEdit = () => {
     const lastName = lastNameInput.current.value.trim();
@@ -53,15 +31,15 @@ const Client = ({ client, isEditing }) => {
       balance,
     };
 
-    eventEmitter.emit('editClient', client, updatedClient);
+    EventEmitter.emit('editClient', client, updatedClient);
   };
 
   const handleCancelEdit = () => {
-    eventEmitter.emit('toggleEdit', client.id);
+    EventEmitter.emit('cancelEdit', client.id);
   };
 
   const handleDelete = () => {
-    eventEmitter.emit('deleteClient', client);
+    EventEmitter.emit('deleteClient', client);
   };
 
   return (
@@ -72,7 +50,7 @@ const Client = ({ client, isEditing }) => {
           <input className='inputCol' ref={firstNameInput} defaultValue={client.firstName} placeholder="Имя" />
           <input className='inputCol' ref={middleNameInput} defaultValue={client.middleName} placeholder="Отчество" />
           <input className='inputCol' ref={balanceInput} defaultValue={client.balance} placeholder="Баланс" />
-          <span className={client.active? 'active' : 'blocked'}>
+          <span className={client.active ? 'active' : 'blocked'}>
             {client.active ? 'Активен' : 'Заблокирован'}
           </span>
           <button className='button' onClick={handleEdit}>Сохранить</button>
@@ -80,22 +58,14 @@ const Client = ({ client, isEditing }) => {
         </div>
       ) : (
         <div className='row'>
-          <span className='col'>
-            {client.lastName}
-          </span>
-          <span className='col'>
-            {client.firstName}
-          </span>
-          <span className='col'>
-            {client.middleName}
-          </span>
-          <span className='col'>
-            {client.balance}
-          </span>
-          <span className={client.active? 'active' : 'blocked'}>
+          <span className='col'>{client.lastName}</span>
+          <span className='col'>{client.firstName}</span>
+          <span className='col'>{client.middleName}</span>
+          <span className='col'>{client.balance}</span>
+          <span className={client.active ? 'active' : 'blocked'}>
             {client.active ? 'Активен' : 'Заблокирован'}
           </span>
-          <button className='button' onClick={() => eventEmitter.emit('toggleEdit', client.id)}>Редактировать</button>
+          <button className='button' onClick={() => onToggleEdit(client.id)}>Редактировать</button>
           <button className='button' onClick={handleDelete}>Удалить</button>
         </div>
       )}

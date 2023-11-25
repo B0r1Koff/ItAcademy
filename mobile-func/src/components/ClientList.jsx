@@ -1,47 +1,70 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Client from './Client';
-import { useAppContext } from './AppContext';
+import EventEmitter from './EventEmitter';
 import './Client.css';
 
-const ClientList = () => {
-  const { clients, filter, editingClientId, eventEmitter, setFilter, handleAddNewClient } = useAppContext();
+const ClientList = ({ clients, setClients }) => {
+  const [filter, setFilter] = useState('all');
+  const [editingClientId, setEditingClientId] = useState(null);
 
   const handleEditClient = (oldClient, updatedClient) => {
-    eventEmitter.emit('editClient', oldClient, updatedClient);
+    setEditingClientId(null);
+    setClients((prevClients) =>
+      prevClients.map((client) => (client.id === oldClient.id ? updatedClient : client))
+    );
   };
 
   const handleDeleteClient = (clientToDelete) => {
-    eventEmitter.emit('deleteClient', clientToDelete);
+    setClients((prevClients) => prevClients.filter((client) => client.id !== clientToDelete.id));
   };
 
   const handleToggleEdit = (clientId) => {
-    eventEmitter.emit('toggleEdit', clientId);
+    setEditingClientId((prevId) => (prevId === clientId ? null : clientId));
+  };
+
+  const handleCancelEdit = () => {
+    setEditingClientId(null);
+  };
+
+  const handleAddNewClient = () => {
+    const newClientId = clients.length + 1;
+    const newClient = {
+      id: newClientId,
+      lastName: 'Новый',
+      firstName: 'Клиент',
+      middleName: '',
+      balance: 0,
+      active: true,
+    };
+    setClients((prevClients) => [...prevClients, newClient]);
   };
 
   useEffect(() => {
-    const handleFilterChange = (newFilter) => {
-      setFilter(newFilter);
-    };
-
-    eventEmitter.on('filterChange', handleFilterChange);
+    EventEmitter.on('editClient', handleEditClient);
+    EventEmitter.on('deleteClient', handleDeleteClient);
+    EventEmitter.on('cancelEdit', handleCancelEdit);
 
     return () => {
-      eventEmitter.off('filterChange', handleFilterChange);
+      EventEmitter.off('editClient', handleEditClient);
+      EventEmitter.off('deleteClient', handleDeleteClient);
+      EventEmitter.off('cancelEdit', handleCancelEdit);
     };
-  }, [eventEmitter, setFilter]);
+  }, [clients, setClients]);
 
-  const filteredClients = filter === 'all' ? clients : clients.filter((client) => client.active === (filter === 'active'));
+  const filteredClients =
+    filter === 'all' ? clients : clients.filter((client) => client.active === (filter === 'active'));
 
   return (
     <div>
       <div>
         Фильтр:{' '}
-        <select value={filter} onChange={(e) => eventEmitter.emit('filterChange', e.target.value)}>
+        <select value={filter} onChange={(e) => setFilter(e.target.value)}>
           <option value="all">Все</option>
           <option value="active">Активные</option>
           <option value="blocked">Заблокированные</option>
         </select>
       </div>
+
       <div className='row'>
         <span className='col'>Фамилия</span>
         <span className='col'>Имя</span>
@@ -50,19 +73,15 @@ const ClientList = () => {
         <span className='col'>Статус</span>
         <span className='col'>Действие</span>
       </div>
+
       {filteredClients.map((client) => (
-        <Client
-          key={client.id}
-          client={client}
-          isEditing={client.id === editingClientId}
-          onToggleEdit={handleToggleEdit}
-          onEditClient={handleEditClient}
-          onDeleteClient={handleDeleteClient}
-          onCancelEdit={handleToggleEdit}
-        />
+        <div key={client.id}>
+          <Client client={client} isEditing={client.id === editingClientId} onToggleEdit={handleToggleEdit} />
+        </div>
       ))}
+
       <div>
-        <button onClick={handleAddNewClient}>Добавить нового клиента</button>
+        <button onClick={handleAddNewClient}>Добавить клиента</button>
       </div>
     </div>
   );
